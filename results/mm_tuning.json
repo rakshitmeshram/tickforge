@@ -1,0 +1,2755 @@
+{
+ "steps": 200000,
+ "tuning_seeds": [
+  101,
+  102,
+  103
+ ],
+ "objective": "mean final PnL",
+ "best": {
+  "inventory": {
+   "strategy": "inventory",
+   "kappa": 1.0,
+   "beta": 0.0,
+   "mean_pnl": 2223.1666666666665,
+   "min_pnl": 1934.0,
+   "mean_sharpe": 0.7482508888113261,
+   "mean_lots": 33848.333333333336,
+   "mean_abs_inventory": 2.403941666666667
+  },
+  "inv+OBI": {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.025,
+   "mean_pnl": 1125.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.4580535946942362,
+   "mean_lots": 18410.666666666668,
+   "mean_abs_inventory": 1.433065
+  }
+ },
+ "cells": [
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.025,
+   "mean_pnl": 522.3333333333334,
+   "min_pnl": 23.0,
+   "mean_sharpe": 0.2117290026241508,
+   "mean_lots": 14283.333333333334,
+   "mean_abs_inventory": 1.5601733333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.05,
+   "mean_pnl": 355.1666666666667,
+   "min_pnl": 81.5,
+   "mean_sharpe": 0.15243261448764453,
+   "mean_lots": 11169.666666666666,
+   "mean_abs_inventory": 1.4384133333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.1,
+   "mean_pnl": 39.5,
+   "min_pnl": -338.0,
+   "mean_sharpe": 0.02038981279330616,
+   "mean_lots": 9258.333333333334,
+   "mean_abs_inventory": 1.6793950000000002
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.25,
+   "mean_pnl": -2315.3333333333335,
+   "min_pnl": -2682.5,
+   "mean_sharpe": -0.7902571506276206,
+   "mean_lots": 6107.333333333333,
+   "mean_abs_inventory": 2.66088
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.5,
+   "mean_pnl": -4145.5,
+   "min_pnl": -5024.0,
+   "mean_sharpe": -1.008148447577781,
+   "mean_lots": 5631.333333333333,
+   "mean_abs_inventory": 3.8516150000000002
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 1.0,
+   "mean_pnl": -11417.166666666666,
+   "min_pnl": -12575.5,
+   "mean_sharpe": -1.5991650168745288,
+   "mean_lots": 8050.333333333333,
+   "mean_abs_inventory": 7.520893333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.025,
+   "mean_pnl": 542.1666666666666,
+   "min_pnl": 339.0,
+   "mean_sharpe": 0.21489626993439748,
+   "mean_lots": 14345.666666666666,
+   "mean_abs_inventory": 1.5716733333333337
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.05,
+   "mean_pnl": 494.5,
+   "min_pnl": 147.0,
+   "mean_sharpe": 0.19616099982770555,
+   "mean_lots": 14445.666666666666,
+   "mean_abs_inventory": 1.590115
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.1,
+   "mean_pnl": 214.66666666666666,
+   "min_pnl": -179.0,
+   "mean_sharpe": 0.09558981431197679,
+   "mean_lots": 11351.333333333334,
+   "mean_abs_inventory": 1.4924550000000003
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.25,
+   "mean_pnl": -410.1666666666667,
+   "min_pnl": -795.0,
+   "mean_sharpe": -0.1665200734224138,
+   "mean_lots": 8444.333333333334,
+   "mean_abs_inventory": 1.8389483333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.5,
+   "mean_pnl": -1920.5,
+   "min_pnl": -2297.5,
+   "mean_sharpe": -0.6678381055928188,
+   "mean_lots": 6263.0,
+   "mean_abs_inventory": 2.58287
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 1.0,
+   "mean_pnl": -6527.333333333333,
+   "min_pnl": -7108.5,
+   "mean_sharpe": -1.4507988363687334,
+   "mean_lots": 6892.666666666667,
+   "mean_abs_inventory": 4.678026666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.025,
+   "mean_pnl": 856.5,
+   "min_pnl": 481.0,
+   "mean_sharpe": 0.35993148527787167,
+   "mean_lots": 13915.0,
+   "mean_abs_inventory": 1.3431516666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.05,
+   "mean_pnl": 856.5,
+   "min_pnl": 481.0,
+   "mean_sharpe": 0.35993148527787167,
+   "mean_lots": 13915.0,
+   "mean_abs_inventory": 1.3431516666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.1,
+   "mean_pnl": 878.3333333333334,
+   "min_pnl": 471.5,
+   "mean_sharpe": 0.3692554522615344,
+   "mean_lots": 14343.333333333334,
+   "mean_abs_inventory": 1.40118
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.25,
+   "mean_pnl": 496.0,
+   "min_pnl": 154.5,
+   "mean_sharpe": 0.22710475746065895,
+   "mean_lots": 10410.666666666666,
+   "mean_abs_inventory": 1.4112449999999999
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.5,
+   "mean_pnl": -606.1666666666666,
+   "min_pnl": -697.5,
+   "mean_sharpe": -0.2566633768923592,
+   "mean_lots": 8455.666666666666,
+   "mean_abs_inventory": 1.9048766666666666
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 1.0,
+   "mean_pnl": -3820.8333333333335,
+   "min_pnl": -4276.5,
+   "mean_sharpe": -1.2041575105269147,
+   "mean_lots": 7017.0,
+   "mean_abs_inventory": 3.145958333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.025,
+   "mean_pnl": 1035.8333333333333,
+   "min_pnl": 852.5,
+   "mean_sharpe": 0.4357225089377614,
+   "mean_lots": 15132.0,
+   "mean_abs_inventory": 1.3735083333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.05,
+   "mean_pnl": 1035.8333333333333,
+   "min_pnl": 852.5,
+   "mean_sharpe": 0.4357225089377614,
+   "mean_lots": 15132.0,
+   "mean_abs_inventory": 1.3735083333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.1,
+   "mean_pnl": 1035.8333333333333,
+   "min_pnl": 852.5,
+   "mean_sharpe": 0.4357225089377614,
+   "mean_lots": 15132.0,
+   "mean_abs_inventory": 1.3735083333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.25,
+   "mean_pnl": 512.0,
+   "min_pnl": 383.5,
+   "mean_sharpe": 0.22541642897982203,
+   "mean_lots": 11797.333333333334,
+   "mean_abs_inventory": 1.356215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.5,
+   "mean_pnl": 70.33333333333333,
+   "min_pnl": -179.5,
+   "mean_sharpe": 0.03030118810572509,
+   "mean_lots": 10832.0,
+   "mean_abs_inventory": 1.6021116666666666
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 1.0,
+   "mean_pnl": -2634.5,
+   "min_pnl": -3018.0,
+   "mean_sharpe": -0.9789871998648335,
+   "mean_lots": 7514.333333333333,
+   "mean_abs_inventory": 2.578645
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.025,
+   "mean_pnl": 1030.0,
+   "min_pnl": 933.5,
+   "mean_sharpe": 0.43040765111724083,
+   "mean_lots": 16178.666666666666,
+   "mean_abs_inventory": 1.3957066666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.05,
+   "mean_pnl": 1030.0,
+   "min_pnl": 933.5,
+   "mean_sharpe": 0.43040765111724083,
+   "mean_lots": 16178.666666666666,
+   "mean_abs_inventory": 1.3957066666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.1,
+   "mean_pnl": 1030.0,
+   "min_pnl": 933.5,
+   "mean_sharpe": 0.43040765111724083,
+   "mean_lots": 16178.666666666666,
+   "mean_abs_inventory": 1.3957066666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.25,
+   "mean_pnl": 965.5,
+   "min_pnl": 878.0,
+   "mean_sharpe": 0.39823517788121787,
+   "mean_lots": 16542.333333333332,
+   "mean_abs_inventory": 1.3956916666666668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.5,
+   "mean_pnl": 389.6666666666667,
+   "min_pnl": 37.0,
+   "mean_sharpe": 0.17585131626068606,
+   "mean_lots": 12541.333333333334,
+   "mean_abs_inventory": 1.3382883333333335
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 1.0,
+   "mean_pnl": -1450.0,
+   "min_pnl": -1704.5,
+   "mean_sharpe": -0.5821636404522849,
+   "mean_lots": 11507.333333333334,
+   "mean_abs_inventory": 2.0123649999999995
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.025,
+   "mean_pnl": 1053.3333333333333,
+   "min_pnl": 847.5,
+   "mean_sharpe": 0.43172633250957954,
+   "mean_lots": 17837.333333333332,
+   "mean_abs_inventory": 1.4107366666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.05,
+   "mean_pnl": 1053.3333333333333,
+   "min_pnl": 847.5,
+   "mean_sharpe": 0.43172633250957954,
+   "mean_lots": 17837.333333333332,
+   "mean_abs_inventory": 1.4107366666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.1,
+   "mean_pnl": 1053.3333333333333,
+   "min_pnl": 847.5,
+   "mean_sharpe": 0.43172633250957954,
+   "mean_lots": 17837.333333333332,
+   "mean_abs_inventory": 1.4107366666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.25,
+   "mean_pnl": 1053.3333333333333,
+   "min_pnl": 847.5,
+   "mean_sharpe": 0.43172633250957954,
+   "mean_lots": 17837.333333333332,
+   "mean_abs_inventory": 1.4107366666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.5,
+   "mean_pnl": 1053.3333333333333,
+   "min_pnl": 847.5,
+   "mean_sharpe": 0.43172633250957954,
+   "mean_lots": 17837.333333333332,
+   "mean_abs_inventory": 1.4107366666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 1.0,
+   "mean_pnl": -352.8333333333333,
+   "min_pnl": -422.5,
+   "mean_sharpe": -0.14857021027198336,
+   "mean_lots": 15627.666666666666,
+   "mean_abs_inventory": 1.5530916666666668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.025,
+   "mean_pnl": 1125.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.4580535946942362,
+   "mean_lots": 18410.666666666668,
+   "mean_abs_inventory": 1.433065
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.05,
+   "mean_pnl": 1125.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.4580535946942362,
+   "mean_lots": 18410.666666666668,
+   "mean_abs_inventory": 1.433065
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.1,
+   "mean_pnl": 1125.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.4580535946942362,
+   "mean_lots": 18410.666666666668,
+   "mean_abs_inventory": 1.433065
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.25,
+   "mean_pnl": 1125.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.4580535946942362,
+   "mean_lots": 18410.666666666668,
+   "mean_abs_inventory": 1.433065
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.5,
+   "mean_pnl": 1107.1666666666667,
+   "min_pnl": 872.5,
+   "mean_sharpe": 0.44992833866906756,
+   "mean_lots": 18467.0,
+   "mean_abs_inventory": 1.4270283333333333
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 1.0,
+   "mean_pnl": -208.5,
+   "min_pnl": -398.5,
+   "mean_sharpe": -0.08034933139755342,
+   "mean_lots": 19465.666666666668,
+   "mean_abs_inventory": 1.6649966666666665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.025,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.05,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.1,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.25,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.5,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 1.0,
+   "mean_pnl": -27.5,
+   "min_pnl": -581.0,
+   "mean_sharpe": -0.008030889862940566,
+   "mean_lots": 24349.666666666668,
+   "mean_abs_inventory": 1.799731666666667
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.025,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.05,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.1,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.25,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.5,
+   "mean_pnl": 1111.3333333333333,
+   "min_pnl": 785.0,
+   "mean_sharpe": 0.45140264997449114,
+   "mean_lots": 18576.0,
+   "mean_abs_inventory": 1.4552983333333334
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 1.0,
+   "mean_pnl": 33.833333333333336,
+   "min_pnl": -360.0,
+   "mean_sharpe": 0.011314302590946117,
+   "mean_lots": 25420.333333333332,
+   "mean_abs_inventory": 1.8968833333333333
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.01,
+   "beta": 0.0,
+   "mean_pnl": 1120.5,
+   "min_pnl": 538.5,
+   "mean_sharpe": 0.368022435872245,
+   "mean_lots": 22615.666666666668,
+   "mean_abs_inventory": 2.464845
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.02,
+   "beta": 0.0,
+   "mean_pnl": 1232.6666666666667,
+   "min_pnl": 941.0,
+   "mean_sharpe": 0.405257099917989,
+   "mean_lots": 22602.0,
+   "mean_abs_inventory": 2.4465066666666666
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.04,
+   "beta": 0.0,
+   "mean_pnl": 1325.6666666666667,
+   "min_pnl": 1161.0,
+   "mean_sharpe": 0.447682662813423,
+   "mean_lots": 22766.666666666668,
+   "mean_abs_inventory": 2.445545
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.06,
+   "beta": 0.0,
+   "mean_pnl": 1429.3333333333333,
+   "min_pnl": 1055.0,
+   "mean_sharpe": 0.48941397713964285,
+   "mean_lots": 22838.0,
+   "mean_abs_inventory": 2.4291199999999997
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.08,
+   "beta": 0.0,
+   "mean_pnl": 1493.3333333333333,
+   "min_pnl": 1266.0,
+   "mean_sharpe": 0.5172513318945849,
+   "mean_lots": 22369.333333333332,
+   "mean_abs_inventory": 2.428385
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.1,
+   "beta": 0.0,
+   "mean_pnl": 1537.5,
+   "min_pnl": 1404.0,
+   "mean_sharpe": 0.5304997186725718,
+   "mean_lots": 22917.0,
+   "mean_abs_inventory": 2.418588333333333
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.15,
+   "beta": 0.0,
+   "mean_pnl": 1776.1666666666667,
+   "min_pnl": 1634.5,
+   "mean_sharpe": 0.6220671145541334,
+   "mean_lots": 24615.333333333332,
+   "mean_abs_inventory": 2.3091749999999998
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.2,
+   "beta": 0.0,
+   "mean_pnl": 1832.1666666666667,
+   "min_pnl": 1484.0,
+   "mean_sharpe": 0.645648698279142,
+   "mean_lots": 26395.0,
+   "mean_abs_inventory": 2.3074283333333336
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.3,
+   "beta": 0.0,
+   "mean_pnl": 2024.8333333333333,
+   "min_pnl": 1794.5,
+   "mean_sharpe": 0.7007612548673423,
+   "mean_lots": 30059.666666666668,
+   "mean_abs_inventory": 2.3241983333333334
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.5,
+   "beta": 0.0,
+   "mean_pnl": 2173.8333333333335,
+   "min_pnl": 1872.0,
+   "mean_sharpe": 0.7263967369261649,
+   "mean_lots": 34501.666666666664,
+   "mean_abs_inventory": 2.417518333333333
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.75,
+   "beta": 0.0,
+   "mean_pnl": 2158.0,
+   "min_pnl": 1738.5,
+   "mean_sharpe": 0.7249108195729804,
+   "mean_lots": 34045.333333333336,
+   "mean_abs_inventory": 2.406093333333333
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.0,
+   "beta": 0.0,
+   "mean_pnl": 2223.1666666666665,
+   "min_pnl": 1934.0,
+   "mean_sharpe": 0.7482508888113261,
+   "mean_lots": 33848.333333333336,
+   "mean_abs_inventory": 2.403941666666667
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.5,
+   "beta": 0.0,
+   "mean_pnl": 2223.1666666666665,
+   "min_pnl": 1934.0,
+   "mean_sharpe": 0.7482508888113261,
+   "mean_lots": 33848.333333333336,
+   "mean_abs_inventory": 2.403941666666667
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 2.0,
+   "beta": 0.0,
+   "mean_pnl": 2223.1666666666665,
+   "min_pnl": 1934.0,
+   "mean_sharpe": 0.7482508888113261,
+   "mean_lots": 33848.333333333336,
+   "mean_abs_inventory": 2.403941666666667
+  }
+ ],
+ "runs": [
+  {
+   "strategy": "inventory",
+   "kappa": 0.01,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.49451174256599517,
+   "lots": 23374,
+   "mean_abs_inventory": 2.42701
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.01,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1364.0,
+   "sharpe": 0.44808002053534174,
+   "lots": 22526,
+   "mean_abs_inventory": 2.477125
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.01,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 538.5,
+   "sharpe": 0.16147554451539792,
+   "lots": 21947,
+   "mean_abs_inventory": 2.4904
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.02,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.49451174256599517,
+   "lots": 23374,
+   "mean_abs_inventory": 2.42701
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.02,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1298.0,
+   "sharpe": 0.42719295801746804,
+   "lots": 22340,
+   "mean_abs_inventory": 2.444065
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.02,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 941.0,
+   "sharpe": 0.2940665991705039,
+   "lots": 22092,
+   "mean_abs_inventory": 2.468445
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.04,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.49451174256599517,
+   "lots": 23374,
+   "mean_abs_inventory": 2.42701
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.04,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1357.0,
+   "sharpe": 0.463373203185751,
+   "lots": 22186,
+   "mean_abs_inventory": 2.43665
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.04,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1161.0,
+   "sharpe": 0.38516304268852297,
+   "lots": 22740,
+   "mean_abs_inventory": 2.472975
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.06,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1621.0,
+   "sharpe": 0.5657889876480456,
+   "lots": 22644,
+   "mean_abs_inventory": 2.402425
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.06,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1612.0,
+   "sharpe": 0.5555483336505559,
+   "lots": 22570,
+   "mean_abs_inventory": 2.42374
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.06,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1055.0,
+   "sharpe": 0.3469046101203269,
+   "lots": 23300,
+   "mean_abs_inventory": 2.461195
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.08,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1567.0,
+   "sharpe": 0.5450889993672381,
+   "lots": 22482,
+   "mean_abs_inventory": 2.40258
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.08,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1647.0,
+   "sharpe": 0.5767955447990804,
+   "lots": 22134,
+   "mean_abs_inventory": 2.4305
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.08,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1266.0,
+   "sharpe": 0.42986945151743666,
+   "lots": 22492,
+   "mean_abs_inventory": 2.452075
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.1,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1742.0,
+   "sharpe": 0.6058529262067881,
+   "lots": 22930,
+   "mean_abs_inventory": 2.404055
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.1,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1466.5,
+   "sharpe": 0.5013536224585138,
+   "lots": 23065,
+   "mean_abs_inventory": 2.41198
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.1,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1404.0,
+   "sharpe": 0.48429260735241364,
+   "lots": 22756,
+   "mean_abs_inventory": 2.43973
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.15,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1967.0,
+   "sharpe": 0.6886370638486188,
+   "lots": 24878,
+   "mean_abs_inventory": 2.294945
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.15,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 1727.0,
+   "sharpe": 0.6096418272606712,
+   "lots": 24421,
+   "mean_abs_inventory": 2.31826
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.15,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1634.5,
+   "sharpe": 0.5679224525531104,
+   "lots": 24547,
+   "mean_abs_inventory": 2.31432
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.2,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 1948.5,
+   "sharpe": 0.6897376096084309,
+   "lots": 26431,
+   "mean_abs_inventory": 2.28846
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.2,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2064.0,
+   "sharpe": 0.7297141356998652,
+   "lots": 26084,
+   "mean_abs_inventory": 2.316635
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.2,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1484.0,
+   "sharpe": 0.5174943495291299,
+   "lots": 26670,
+   "mean_abs_inventory": 2.31719
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.3,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2211.5,
+   "sharpe": 0.7763827627272085,
+   "lots": 29423,
+   "mean_abs_inventory": 2.29519
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.3,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2068.5,
+   "sharpe": 0.7137227657993841,
+   "lots": 30517,
+   "mean_abs_inventory": 2.32796
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.3,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1794.5,
+   "sharpe": 0.6121782360754344,
+   "lots": 30239,
+   "mean_abs_inventory": 2.349445
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.5,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2321.0,
+   "sharpe": 0.7833837487240178,
+   "lots": 34052,
+   "mean_abs_inventory": 2.44015
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.5,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2328.5,
+   "sharpe": 0.778887656551713,
+   "lots": 34601,
+   "mean_abs_inventory": 2.3944
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.5,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1872.0,
+   "sharpe": 0.616918805502764,
+   "lots": 34852,
+   "mean_abs_inventory": 2.418005
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.75,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2616.5,
+   "sharpe": 0.8918715435867267,
+   "lots": 33649,
+   "mean_abs_inventory": 2.412935
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.75,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2119.0,
+   "sharpe": 0.7053539693976786,
+   "lots": 34624,
+   "mean_abs_inventory": 2.406015
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 0.75,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1738.5,
+   "sharpe": 0.5775069457345358,
+   "lots": 33863,
+   "mean_abs_inventory": 2.39933
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.0,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2616.5,
+   "sharpe": 0.8918715435867267,
+   "lots": 33649,
+   "mean_abs_inventory": 2.412935
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.0,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2119.0,
+   "sharpe": 0.7053539693976786,
+   "lots": 34624,
+   "mean_abs_inventory": 2.406015
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.0,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1934.0,
+   "sharpe": 0.6475271534495732,
+   "lots": 33272,
+   "mean_abs_inventory": 2.392875
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.5,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2616.5,
+   "sharpe": 0.8918715435867267,
+   "lots": 33649,
+   "mean_abs_inventory": 2.412935
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.5,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2119.0,
+   "sharpe": 0.7053539693976786,
+   "lots": 34624,
+   "mean_abs_inventory": 2.406015
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 1.5,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1934.0,
+   "sharpe": 0.6475271534495732,
+   "lots": 33272,
+   "mean_abs_inventory": 2.392875
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 2.0,
+   "beta": 0.0,
+   "seed": 101,
+   "pnl": 2616.5,
+   "sharpe": 0.8918715435867267,
+   "lots": 33649,
+   "mean_abs_inventory": 2.412935
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 2.0,
+   "beta": 0.0,
+   "seed": 102,
+   "pnl": 2119.0,
+   "sharpe": 0.7053539693976786,
+   "lots": 34624,
+   "mean_abs_inventory": 2.406015
+  },
+  {
+   "strategy": "inventory",
+   "kappa": 2.0,
+   "beta": 0.0,
+   "seed": 103,
+   "pnl": 1934.0,
+   "sharpe": 0.6475271534495732,
+   "lots": 33272,
+   "mean_abs_inventory": 2.392875
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 635.0,
+   "sharpe": 0.2572643658772929,
+   "lots": 13858,
+   "mean_abs_inventory": 1.51447
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 909.0,
+   "sharpe": 0.3694977332712549,
+   "lots": 14116,
+   "mean_abs_inventory": 1.512575
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 23.0,
+   "sharpe": 0.008424908723904575,
+   "lots": 14876,
+   "mean_abs_inventory": 1.653475
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 725.0,
+   "sharpe": 0.3159206533438091,
+   "lots": 10950,
+   "mean_abs_inventory": 1.391375
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 259.0,
+   "sharpe": 0.108585767896774,
+   "lots": 10680,
+   "mean_abs_inventory": 1.401815
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 81.5,
+   "sharpe": 0.032791422222350486,
+   "lots": 11879,
+   "mean_abs_inventory": 1.52205
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 381.0,
+   "sharpe": 0.16700321691181347,
+   "lots": 9320,
+   "mean_abs_inventory": 1.68208
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 75.5,
+   "sharpe": 0.032862310440592325,
+   "lots": 9253,
+   "mean_abs_inventory": 1.70652
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": -338.0,
+   "sharpe": -0.1386960889724873,
+   "lots": 9202,
+   "mean_abs_inventory": 1.649585
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": -2059.0,
+   "sharpe": -0.7091841688075521,
+   "lots": 6288,
+   "mean_abs_inventory": 2.67355
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": -2204.5,
+   "sharpe": -0.7555778888677055,
+   "lots": 6049,
+   "mean_abs_inventory": 2.594365
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": -2682.5,
+   "sharpe": -0.9060093942076041,
+   "lots": 5985,
+   "mean_abs_inventory": 2.714725
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": -3501.0,
+   "sharpe": -0.88741774646058,
+   "lots": 5621,
+   "mean_abs_inventory": 3.859665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": -3911.5,
+   "sharpe": -0.9560555306230699,
+   "lots": 5533,
+   "mean_abs_inventory": 3.750745
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": -5024.0,
+   "sharpe": -1.1809720656496931,
+   "lots": 5740,
+   "mean_abs_inventory": 3.944435
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -10593.0,
+   "sharpe": -1.4825351037572274,
+   "lots": 7974,
+   "mean_abs_inventory": 7.42412
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -11083.0,
+   "sharpe": -1.5924924437585837,
+   "lots": 7958,
+   "mean_abs_inventory": 7.42096
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.04,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -12575.5,
+   "sharpe": -1.7224675031077756,
+   "lots": 8219,
+   "mean_abs_inventory": 7.7176
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 510.0,
+   "sharpe": 0.19841294256419217,
+   "lots": 14694,
+   "mean_abs_inventory": 1.620905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 777.5,
+   "sharpe": 0.3149336361004066,
+   "lots": 13893,
+   "mean_abs_inventory": 1.52208
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 339.0,
+   "sharpe": 0.1313422311385936,
+   "lots": 14450,
+   "mean_abs_inventory": 1.572035
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 559.0,
+   "sharpe": 0.21815994250095722,
+   "lots": 14656,
+   "mean_abs_inventory": 1.61316
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 777.5,
+   "sharpe": 0.3149336361004066,
+   "lots": 13893,
+   "mean_abs_inventory": 1.52208
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 147.0,
+   "sharpe": 0.05538942088175295,
+   "lots": 14788,
+   "mean_abs_inventory": 1.635105
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 796.0,
+   "sharpe": 0.34794455935560314,
+   "lots": 10912,
+   "mean_abs_inventory": 1.37525
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 27.0,
+   "sharpe": 0.011065946193914104,
+   "lots": 11264,
+   "mean_abs_inventory": 1.53287
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": -179.0,
+   "sharpe": -0.07224106261358688,
+   "lots": 11878,
+   "mean_abs_inventory": 1.569245
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": -89.0,
+   "sharpe": -0.03813428617575218,
+   "lots": 8350,
+   "mean_abs_inventory": 1.83643
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": -795.0,
+   "sharpe": -0.3183677877894168,
+   "lots": 8500,
+   "mean_abs_inventory": 1.876625
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": -346.5,
+   "sharpe": -0.1430581463020724,
+   "lots": 8483,
+   "mean_abs_inventory": 1.80379
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": -1404.5,
+   "sharpe": -0.5057764233039728,
+   "lots": 6089,
+   "mean_abs_inventory": 2.528215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": -2297.5,
+   "sharpe": -0.7898934334853704,
+   "lots": 6309,
+   "mean_abs_inventory": 2.63777
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": -2059.5,
+   "sharpe": -0.7078444599891133,
+   "lots": 6391,
+   "mean_abs_inventory": 2.582625
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -6095.5,
+   "sharpe": -1.3654143368003557,
+   "lots": 6899,
+   "mean_abs_inventory": 4.677745
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -6378.0,
+   "sharpe": -1.4400622594420864,
+   "lots": 6728,
+   "mean_abs_inventory": 4.64086
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.08,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -7108.5,
+   "sharpe": -1.546919912863758,
+   "lots": 7051,
+   "mean_abs_inventory": 4.715475
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1141.5,
+   "sharpe": 0.48858191755236735,
+   "lots": 13435,
+   "mean_abs_inventory": 1.313555
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 947.0,
+   "sharpe": 0.3967554819340938,
+   "lots": 14350,
+   "mean_abs_inventory": 1.35395
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 481.0,
+   "sharpe": 0.19445705634715377,
+   "lots": 13960,
+   "mean_abs_inventory": 1.36195
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1141.5,
+   "sharpe": 0.48858191755236735,
+   "lots": 13435,
+   "mean_abs_inventory": 1.313555
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 947.0,
+   "sharpe": 0.3967554819340938,
+   "lots": 14350,
+   "mean_abs_inventory": 1.35395
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 481.0,
+   "sharpe": 0.19445705634715377,
+   "lots": 13960,
+   "mean_abs_inventory": 1.36195
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1465.0,
+   "sharpe": 0.6210106384933358,
+   "lots": 14792,
+   "mean_abs_inventory": 1.3709
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 698.5,
+   "sharpe": 0.29481334939045173,
+   "lots": 13663,
+   "mean_abs_inventory": 1.406045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 471.5,
+   "sharpe": 0.19194236890081565,
+   "lots": 14575,
+   "mean_abs_inventory": 1.426595
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 844.0,
+   "sharpe": 0.3887590151866006,
+   "lots": 10414,
+   "mean_abs_inventory": 1.34248
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 489.5,
+   "sharpe": 0.22518638082528353,
+   "lots": 10147,
+   "mean_abs_inventory": 1.41417
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 154.5,
+   "sharpe": 0.06736887637009267,
+   "lots": 10671,
+   "mean_abs_inventory": 1.477085
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": -450.5,
+   "sharpe": -0.19205287183945674,
+   "lots": 8435,
+   "mean_abs_inventory": 1.892285
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": -697.5,
+   "sharpe": -0.29837777679366745,
+   "lots": 8273,
+   "mean_abs_inventory": 1.93727
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": -670.5,
+   "sharpe": -0.2795594820439533,
+   "lots": 8659,
+   "mean_abs_inventory": 1.885075
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -3395.0,
+   "sharpe": -1.0621427421054175,
+   "lots": 7460,
+   "mean_abs_inventory": 3.11867
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -3791.0,
+   "sharpe": -1.2498605564211194,
+   "lots": 6484,
+   "mean_abs_inventory": 3.093785
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.15,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -4276.5,
+   "sharpe": -1.3004692330542076,
+   "lots": 7107,
+   "mean_abs_inventory": 3.22542
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1392.0,
+   "sharpe": 0.5909369869825938,
+   "lots": 15391,
+   "mean_abs_inventory": 1.32842
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 863.0,
+   "sharpe": 0.36254247642037163,
+   "lots": 14756,
+   "mean_abs_inventory": 1.377755
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 852.5,
+   "sharpe": 0.35368806341031866,
+   "lots": 15249,
+   "mean_abs_inventory": 1.41435
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1392.0,
+   "sharpe": 0.5909369869825938,
+   "lots": 15391,
+   "mean_abs_inventory": 1.32842
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 863.0,
+   "sharpe": 0.36254247642037163,
+   "lots": 14756,
+   "mean_abs_inventory": 1.377755
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 852.5,
+   "sharpe": 0.35368806341031866,
+   "lots": 15249,
+   "mean_abs_inventory": 1.41435
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1392.0,
+   "sharpe": 0.5909369869825938,
+   "lots": 15391,
+   "mean_abs_inventory": 1.32842
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 863.0,
+   "sharpe": 0.36254247642037163,
+   "lots": 14756,
+   "mean_abs_inventory": 1.377755
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 852.5,
+   "sharpe": 0.35368806341031866,
+   "lots": 15249,
+   "mean_abs_inventory": 1.41435
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 683.0,
+   "sharpe": 0.30236239092847217,
+   "lots": 11570,
+   "mean_abs_inventory": 1.344965
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 469.5,
+   "sharpe": 0.20683964280838638,
+   "lots": 11725,
+   "mean_abs_inventory": 1.3621
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 383.5,
+   "sharpe": 0.1670472532026075,
+   "lots": 12097,
+   "mean_abs_inventory": 1.36158
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 208.5,
+   "sharpe": 0.08931481151653461,
+   "lots": 11175,
+   "mean_abs_inventory": 1.588715
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 182.0,
+   "sharpe": 0.07949745967742496,
+   "lots": 10878,
+   "mean_abs_inventory": 1.58527
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": -179.5,
+   "sharpe": -0.0779087068767843,
+   "lots": 10443,
+   "mean_abs_inventory": 1.63235
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -1950.5,
+   "sharpe": -0.7356792522455324,
+   "lots": 7777,
+   "mean_abs_inventory": 2.53574
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -2935.0,
+   "sharpe": -1.1242417201262414,
+   "lots": 6960,
+   "mean_abs_inventory": 2.5636
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.2,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -3018.0,
+   "sharpe": -1.0770406272227264,
+   "lots": 7806,
+   "mean_abs_inventory": 2.636595
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1220.5,
+   "sharpe": 0.5150678418947815,
+   "lots": 15943,
+   "mean_abs_inventory": 1.347085
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 933.5,
+   "sharpe": 0.388178091778218,
+   "lots": 16395,
+   "mean_abs_inventory": 1.460695
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 936.0,
+   "sharpe": 0.38797701967872317,
+   "lots": 16198,
+   "mean_abs_inventory": 1.37934
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1220.5,
+   "sharpe": 0.5150678418947815,
+   "lots": 15943,
+   "mean_abs_inventory": 1.347085
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 933.5,
+   "sharpe": 0.388178091778218,
+   "lots": 16395,
+   "mean_abs_inventory": 1.460695
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 936.0,
+   "sharpe": 0.38797701967872317,
+   "lots": 16198,
+   "mean_abs_inventory": 1.37934
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1220.5,
+   "sharpe": 0.5150678418947815,
+   "lots": 15943,
+   "mean_abs_inventory": 1.347085
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 933.5,
+   "sharpe": 0.388178091778218,
+   "lots": 16395,
+   "mean_abs_inventory": 1.460695
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 936.0,
+   "sharpe": 0.38797701967872317,
+   "lots": 16198,
+   "mean_abs_inventory": 1.37934
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 878.0,
+   "sharpe": 0.3663702710914382,
+   "lots": 15900,
+   "mean_abs_inventory": 1.375145
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 1131.5,
+   "sharpe": 0.4648171821159902,
+   "lots": 17093,
+   "mean_abs_inventory": 1.398665
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 887.0,
+   "sharpe": 0.3635180804362253,
+   "lots": 16634,
+   "mean_abs_inventory": 1.413265
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 787.5,
+   "sharpe": 0.3573853293566944,
+   "lots": 12909,
+   "mean_abs_inventory": 1.320945
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 344.5,
+   "sharpe": 0.15374055210071264,
+   "lots": 12527,
+   "mean_abs_inventory": 1.3131
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": 37.0,
+   "sharpe": 0.016428067324651078,
+   "lots": 12188,
+   "mean_abs_inventory": 1.38082
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -1193.0,
+   "sharpe": -0.48422070141610146,
+   "lots": 11652,
+   "mean_abs_inventory": 1.966735
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -1452.5,
+   "sharpe": -0.5816965802006253,
+   "lots": 11513,
+   "mean_abs_inventory": 2.052515
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.3,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -1704.5,
+   "sharpe": -0.6805736397401279,
+   "lots": 11357,
+   "mean_abs_inventory": 2.017845
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.6046621746143582,
+   "lots": 17766,
+   "mean_abs_inventory": 1.35309
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 853.5,
+   "sharpe": 0.3466357062106251,
+   "lots": 17455,
+   "mean_abs_inventory": 1.420215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 847.5,
+   "sharpe": 0.3438811167037553,
+   "lots": 18291,
+   "mean_abs_inventory": 1.458905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.6046621746143582,
+   "lots": 17766,
+   "mean_abs_inventory": 1.35309
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 853.5,
+   "sharpe": 0.3466357062106251,
+   "lots": 17455,
+   "mean_abs_inventory": 1.420215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 847.5,
+   "sharpe": 0.3438811167037553,
+   "lots": 18291,
+   "mean_abs_inventory": 1.458905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.6046621746143582,
+   "lots": 17766,
+   "mean_abs_inventory": 1.35309
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 853.5,
+   "sharpe": 0.3466357062106251,
+   "lots": 17455,
+   "mean_abs_inventory": 1.420215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 847.5,
+   "sharpe": 0.3438811167037553,
+   "lots": 18291,
+   "mean_abs_inventory": 1.458905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.6046621746143582,
+   "lots": 17766,
+   "mean_abs_inventory": 1.35309
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 853.5,
+   "sharpe": 0.3466357062106251,
+   "lots": 17455,
+   "mean_abs_inventory": 1.420215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 847.5,
+   "sharpe": 0.3438811167037553,
+   "lots": 18291,
+   "mean_abs_inventory": 1.458905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 1459.0,
+   "sharpe": 0.6046621746143582,
+   "lots": 17766,
+   "mean_abs_inventory": 1.35309
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 853.5,
+   "sharpe": 0.3466357062106251,
+   "lots": 17455,
+   "mean_abs_inventory": 1.420215
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": 847.5,
+   "sharpe": 0.3438811167037553,
+   "lots": 18291,
+   "mean_abs_inventory": 1.458905
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": -225.5,
+   "sharpe": -0.09755691488953942,
+   "lots": 15231,
+   "mean_abs_inventory": 1.524115
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -422.5,
+   "sharpe": -0.1781373426257867,
+   "lots": 15549,
+   "mean_abs_inventory": 1.5671
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.5,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -410.5,
+   "sharpe": -0.17001637330062397,
+   "lots": 16103,
+   "mean_abs_inventory": 1.56806
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 1053.0,
+   "sharpe": 0.4198989452409535,
+   "lots": 18566,
+   "mean_abs_inventory": 1.451345
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 1053.0,
+   "sharpe": 0.4198989452409535,
+   "lots": 18566,
+   "mean_abs_inventory": 1.451345
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 1053.0,
+   "sharpe": 0.4198989452409535,
+   "lots": 18566,
+   "mean_abs_inventory": 1.451345
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 1053.0,
+   "sharpe": 0.4198989452409535,
+   "lots": 18566,
+   "mean_abs_inventory": 1.451345
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 1375.5,
+   "sharpe": 0.5588620697471939,
+   "lots": 18705,
+   "mean_abs_inventory": 1.389985
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 1073.5,
+   "sharpe": 0.44941117554872545,
+   "lots": 17107,
+   "mean_abs_inventory": 1.3131
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": 872.5,
+   "sharpe": 0.34151177071128336,
+   "lots": 19589,
+   "mean_abs_inventory": 1.578
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": 14.5,
+   "sharpe": 0.005651336061697296,
+   "lots": 19797,
+   "mean_abs_inventory": 1.666085
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -241.5,
+   "sharpe": -0.09588852560348128,
+   "lots": 18581,
+   "mean_abs_inventory": 1.6293
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 0.75,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -398.5,
+   "sharpe": -0.15081080465087626,
+   "lots": 20019,
+   "mean_abs_inventory": 1.699605
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": 359.0,
+   "sharpe": 0.1292339560616082,
+   "lots": 24200,
+   "mean_abs_inventory": 1.7321
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": 139.5,
+   "sharpe": 0.050304232573031044,
+   "lots": 24203,
+   "mean_abs_inventory": 1.8132
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.0,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": -581.0,
+   "sharpe": -0.20363085822346094,
+   "lots": 24646,
+   "mean_abs_inventory": 1.853895
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.025,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.025,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.025,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.05,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.05,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.05,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.1,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.1,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.1,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.25,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.25,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.25,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.5,
+   "seed": 101,
+   "pnl": 1538.0,
+   "sharpe": 0.6394949831492238,
+   "lots": 18170,
+   "mean_abs_inventory": 1.39117
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.5,
+   "seed": 102,
+   "pnl": 1011.0,
+   "sharpe": 0.3999461110817182,
+   "lots": 19062,
+   "mean_abs_inventory": 1.518045
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 0.5,
+   "seed": 103,
+   "pnl": 785.0,
+   "sharpe": 0.3147668556925314,
+   "lots": 18496,
+   "mean_abs_inventory": 1.45668
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 1.0,
+   "seed": 101,
+   "pnl": 345.5,
+   "sharpe": 0.1221433022373936,
+   "lots": 25885,
+   "mean_abs_inventory": 1.889635
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 1.0,
+   "seed": 102,
+   "pnl": -360.0,
+   "sharpe": -0.12862664487889638,
+   "lots": 23986,
+   "mean_abs_inventory": 1.83246
+  },
+  {
+   "strategy": "inv+OBI",
+   "kappa": 1.5,
+   "beta": 1.0,
+   "seed": 103,
+   "pnl": 116.0,
+   "sharpe": 0.040426250414341135,
+   "lots": 26390,
+   "mean_abs_inventory": 1.968555
+  }
+ ]
+}

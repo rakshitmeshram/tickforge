@@ -1,0 +1,35 @@
+204 runs, 200,000 steps each, seeds (101, 102, 103), in 357s
+
+inventory: mean PnL by kappa
+  kappa  0.01  pnl    1120.5  min     538.5  sharpe  0.37  |inv|  2.46
+  kappa  0.02  pnl    1232.7  min     941.0  sharpe  0.41  |inv|  2.45
+  kappa  0.04  pnl    1325.7  min    1161.0  sharpe  0.45  |inv|  2.45
+  kappa  0.06  pnl    1429.3  min    1055.0  sharpe  0.49  |inv|  2.43
+  kappa  0.08  pnl    1493.3  min    1266.0  sharpe  0.52  |inv|  2.43
+  kappa  0.10  pnl    1537.5  min    1404.0  sharpe  0.53  |inv|  2.42
+  kappa  0.15  pnl    1776.2  min    1634.5  sharpe  0.62  |inv|  2.31
+  kappa  0.20  pnl    1832.2  min    1484.0  sharpe  0.65  |inv|  2.31
+  kappa  0.30  pnl    2024.8  min    1794.5  sharpe  0.70  |inv|  2.32
+  kappa  0.50  pnl    2173.8  min    1872.0  sharpe  0.73  |inv|  2.42
+  kappa  0.75  pnl    2158.0  min    1738.5  sharpe  0.72  |inv|  2.41
+  kappa  1.00  pnl    2223.2  min    1934.0  sharpe  0.75  |inv|  2.40
+  kappa  1.50  pnl    2223.2  min    1934.0  sharpe  0.75  |inv|  2.40
+  kappa  2.00  pnl    2223.2  min    1934.0  sharpe  0.75  |inv|  2.40
+
+inv+OBI: mean PnL, rows kappa, columns beta
+  kappa     0.025     0.05      0.1     0.25      0.5      1.0
+   0.04       522      355       40    -2315    -4146   -11417
+   0.08       542      494      215     -410    -1920    -6527
+   0.15       856      856      878      496     -606    -3821
+   0.20      1036     1036     1036      512       70    -2634
+   0.30      1030     1030     1030      966      390    -1450
+   0.50      1053     1053     1053     1053     1053     -353
+   0.75      1125     1125     1125     1125     1107     -208
+   1.00      1111     1111     1111     1111     1111      -28
+   1.50      1111     1111     1111     1111     1111       34
+
+best inventory: kappa=1.0, beta=0.0, mean pnl 2223.2, min 1934.0, sharpe 0.75
+
+best inv+OBI: kappa=0.75, beta=0.025, mean pnl 1125.3, min 785.0, sharpe 0.46
+
+wrote results\mm_tuning.json

@@ -65,12 +65,16 @@ class Strategy:
     beta: float = 0.0  # ticks of reservation-price shift per unit of OBI
 
 
-# kappa and beta were chosen on tuning seeds 101-103 (see README); the
-# reported results use seeds 1..N, which were never used for tuning.
+# kappa and beta were chosen by research/tune_mm.py on tuning seeds 101-103
+# (results/mm_tuning.json); the reported results use seeds 1..N, which were
+# never used for tuning. Quotes are whole ticks and inventory moves in 5-lot
+# steps, so kappa >= 1 saturates (any position shifts r by >= 5 ticks) and
+# any small beta > 0 acts as a switch that steps one quote back a tick when
+# imbalance points against it.
 STRATEGIES = [
     Strategy("symmetric"),
-    Strategy("inventory", kappa=0.08),
-    Strategy("inv+OBI", kappa=0.08, beta=0.5),
+    Strategy("inventory", kappa=1.0),
+    Strategy("inv+OBI", kappa=0.75, beta=0.025),
 ]
 
 

@@ -40,7 +40,7 @@ tests/                 scenario tests (run on both books), structure property te
 scripts/               reproduce.sh / reproduce.ps1, zig/ compiler wrappers for Windows without Visual Studio
 .github/workflows/     CI: GCC, Clang, MSVC, sanitizers, Python, research smoke test, clang-format
 python/tickforge/      ctypes bindings (numpy only), pytest suite
-research/              obi_signal.py, market_maker.py, plot_latency.py
+research/              obi_signal.py, market_maker.py, tune_mm.py (κ/β tuning), plot_latency.py
 docs/DESIGN.md         design decisions and trade-offs
 ```
 
@@ -295,15 +295,28 @@ and a cancel/replace only when the price changes, so unchanged quotes keep their
 * **inventory**: Avellaneda–Stoikov-style reservation price r = mid − κ·q.
 * **inv+OBI**: r = mid − κ·q + β·OBI1, leaning on Research 1's signal.
 
-κ and β were tuned on seeds 101–103 only, with the v1.0 generator, and were not re-tuned after the
-v1.1 fix. The table reports seeds 1–10, which were never used for tuning: 30 runs and 60.6M engine
-messages (123 s on the benchmark laptop).
+**Tuning.** `research/tune_mm.py` chooses κ and β on tuning seeds 101–103 only, at the reporting
+horizon, by mean final PnL (`results/mm_tuning.json`). For inventory it searches κ from 0.01 to 2.
+For inv+OBI it searches a joint κ × β grid with β > 0, so the signal gets its best chance. A first,
+narrower grid put both optima on its edge, so the grid was widened before anything was run on the
+reporting seeds. The result is κ = 1.0 for inventory, and κ = 0.75, β = 0.025 for inv+OBI.
+
+Two properties of the setup matter for reading these values. Quotes are whole ticks and inventory
+moves in 5-lot steps, so κ ≥ 1 saturates: any position moves r by at least 5 ticks, and the maker
+then only quotes the side that reduces it, at the touch. κ = 1.0, 1.5 and 2.0 give identical
+results. For the same reason, any small β > 0 acts as a switch rather than a dial. It steps one
+quote back by a tick whenever imbalance points against that side, and every β from 0.025 to 0.25
+gave the same result at κ = 0.75. Larger β is worse at every κ, and at β = 1 PnL is negative for
+every κ up to 1.0.
+
+The table reports seeds 1–10, which were never used for tuning: 30 runs and 60.6M engine messages
+(141 s on the benchmark laptop).
 
 | | PnL (ticks×lots) | Sharpe / √1k steps | filled lots | mean \|inv\| | markout 100 | markout 1k | markout 10k |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | symmetric | −14,632 ± 4,537 | −0.63 | 55,759 | 24.8 | +0.07 | −0.08 | −0.25 |
-| **inventory** | **+1,403 ± 314** | **+0.48** | 22,694 | **2.4** | +0.16 | +0.11 | **+0.06** |
-| inv+OBI | −2,266 ± 295 | −0.79 | 6,217 | 2.6 | **+0.41** | +0.02 | −0.34 |
+| **inventory** | **+1,996 ± 225** | **+0.67** | 34,244 | 2.4 | +0.10 | +0.08 | +0.06 |
+| inv+OBI | +1,125 ± 242 | +0.46 | 18,301 | **1.4** | **+0.18** | **+0.11** | +0.06 |
 
 (± is the standard deviation across 10 seeds. Markout is the mid move in our favour per filled lot,
 N messages after the fill.)
@@ -315,12 +328,20 @@ Findings:
 * **Inventory control is the difference between losing and earning.** The symmetric maker sits at
   its position limit most of the time (mean |inv| 25 of 50) and bleeds as informed flow pushes the
   price through it. Skewing quotes by inventory keeps |inv| near 2 and turns PnL positive in every
-  seed (+794 to +1,833).
-* **A predictive signal made things worse, and markouts show why.** Leaning on OBI raises the
-  100-message markout from 0.16 to 0.41, so the fills look great short-term. By 10k messages the
-  same fills are −0.34. The signal selects fills that are good over the signal's horizon (Research 1:
-  IC peaks at 50–100 messages) and does nothing about the slower informed drift. Chasing the signal
-  also reprices quotes, which forfeits queue position, and filled volume drops by 73%.
+  seed (+1,596 to +2,393).
+* **A predictive signal improves each fill but lowers total PnL.** Tuned inv+OBI earns less than
+  inventory on all 10 seeds (by 871 on average, paired t ≈ 12). Its fills are better: the
+  100-message markout is +0.18 against +0.10, and it is never worse at 10k messages (+0.06 for both).
+  The cost is volume. Stepping a quote back whenever imbalance points against it avoids the fills
+  the signal expects to lose on, but also many that would have paid the spread, and filled lots
+  drop by 47%. The edge per fill does not make up for half the fills.
+* **Leaning harder on the signal loses money.** Before re-tuning, the parameters were κ = 0.08 and
+  β = 0.5, tuned with the v1.0 generator. With them, inv+OBI lost money on the same seeds 1–10
+  (−2,266). Its fills looked excellent at 100 messages (+0.41) and toxic at 10k (−0.34), and filled
+  volume fell by 73%. The tuning grid shows the same pattern on the tuning seeds: PnL falls steadily
+  as β grows.
+  The signal's horizon (Research 1: IC peaks at 50–100 messages) is shorter than the time the maker
+  holds inventory, so quoting on it mostly buys short-term fill quality at the price of volume.
 * The accounting is checked: final PnL equals Σ fills × (final mid − fill price) exactly.
 
 ## What this is not
@@ -339,7 +360,6 @@ Being clear about scope matters more than overclaiming:
 
 ## Next steps
 
-* Re-tune the market maker's κ and β on the v1.1 flow (tuning seeds 101–103 only).
 * An ITCH 5.0 parser so the same engine and research run on real NASDAQ sample data.
 * Core pinning and isolation, to measure below the operating system's noise floor (timing
   already uses `rdtsc`).
