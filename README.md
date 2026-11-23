@@ -8,16 +8,18 @@ market-making strategies.**
 
 | | |
 |---|---|
-| **Throughput** | **40.2 M msgs/s** single core, 2.5× a `std::map` book on identical flow |
-| **Latency** | **p50 36 ns · p99 102 ns · p99.9 198 ns** per message (add / cancel / amend / market) |
+| **Throughput** | **27 M msgs/s** single core on a 2017 laptop CPU, 3.7× a `std::map` book on identical flow |
+| **Latency** | **p50 42 ns · p99 111 ns · p99.9 171 ns** per message (add / cancel / amend / market) |
 | **Correctness** | Unit tests plus differential fuzzing: 1.4 M random messages (4.6 M in CI), including self-trade prevention across several owners, must match an independent reference book trade for trade. Clean under ASan, UBSan and `-Werror` on GCC and Clang, and built and tested with MSVC, in CI on every push |
 | **Features** | GTC / IOC / FOK limits, market orders, O(1) cancel, amend, and self-trade prevention (cancel newest / oldest / both) |
 | **Research** | Level-1 imbalance has an out-of-sample IC of 0.23 at 50 messages. An inventory-skewed market maker earns money where a symmetric one loses, and using the imbalance signal for quoting *reduces* PnL. The analysis shows why |
 
-The benchmark numbers come from `scripts/reproduce.sh` on a 2-vCPU Intel Xeon @ 2.1 GHz cloud VM
-(GCC 13, `-O3`) with the v1.0 flow generator; on a desktop CPU they will be better. The research numbers are deterministic (same
-seed, same result on every platform) and were regenerated for v1.1, whose flow generator only
-cancels and amends orders that are really resting (see [Benchmarks](#benchmarks)).
+All benchmark numbers come from `scripts/reproduce.ps1` on a Dell Inspiron 5577 laptop: Intel Core i7-7700HQ (Kaby Lake, 4 cores / 8 threads, 2.8 GHz base, 3.8 GHz turbo, 6 MB L3), 8 GB RAM, Windows 10 22H2, on AC power with the Balanced power plan. The compiler is Clang 22.1
+(`zig c++` 0.17.1), `-O3`. See [Benchmarks](#benchmarks) for the method and run-to-run spread. The
+research numbers are deterministic: rerunning with the same seeds reproduced `results/*_metrics.json`
+exactly. The generator avoids `std::` distributions so that streams should match across platforms,
+but that has only been checked on this machine. CI runs a smaller research smoke test on Linux
+without comparing numbers.
 
 ---
 
@@ -85,8 +87,9 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-Once `build\` is configured this way, `reproduce.ps1` reuses it. Windows' `steady_clock` ticks every
-100 ns, so latency percentiles there are coarse; throughput numbers are fine.
+Once `build\` is configured this way, `reproduce.ps1` reuses it. `tf_bench` times messages with
+the CPU's TSC, so latency percentiles on Windows are as fine-grained as on Linux, even though
+Windows' `steady_clock` only ticks every 100 ns.
 
 The engine needs only a C++20 compiler and CMake. The Python layer needs
 `numpy`, and the research scripts also need `pandas` and `matplotlib`.
@@ -151,51 +154,61 @@ validates every record, so a truncated or corrupt file fails cleanly.
 | id → order (cancel/amend) | `std::unordered_map`, node per entry | flat open-addressing table, splitmix64, backward-shift deletion |
 | trade callback | — | template parameter, inlined (no virtual call) |
 
-**A bug the benchmark caught.** The first version sized the id hash table for `max_orders` (4M slots,
-64 MB). Each cancel was then a cache and TLB miss, and p50 latency came out *worse* than the
-`std::map` baseline (120 ns vs 67 ns). Sizing the table to the expected live order count and letting
-it grow cut the fast book's p50 to 36 ns and doubled throughput. `BookConfig::expected_orders` is
-that knob.
+**A bug the benchmark caught.** The first version sized the id hash table for `max_orders`: 4M
+slots, 64 MB, for a book that holds about 2,000 orders. Almost every lookup then misses the caches
+and the TLB. Sizing the table to the expected live order count and letting it grow is
+`BookConfig::expected_orders`, and `tf_bench --expected_orders 2097152` reproduces the old sizing.
+On the benchmark machine the oversized table more than doubles the fast book's p50 (102 ns vs
+42 ns) and cuts throughput from 27 to 12 M msgs/s. The fast book still beats `std::map` at the
+median (102 ns vs 139 ns) on this machine.
 
 ## Benchmarks
 
-`tf_bench` replays an in-memory stream of 2M messages through each book. Throughput is the best of
-5 untimed replays. Latency brackets every message with `steady_clock`, and the median cost of an
-empty bracket (25 ns) is subtracted.
+**Machine:** a Dell Inspiron 5577 laptop: Intel Core i7-7700HQ (Kaby Lake, 4 cores / 8 threads, 2.8 GHz base, 3.8 GHz turbo, 6 MB L3), 8 GB RAM, Windows 10 22H2, on AC power with the Balanced power plan. Clang 22.1 (`zig c++` 0.17.1), `-O3`, no `-march=native`. A laptop is
+a noisy place to benchmark: there is no core isolation, turbo boost changes the clock, and Windows
+runs background work. That is why the spread across runs is given below, not just one run.
 
-> **Generator change in v1.1.** The tables below were measured with the v1.0 generator. That
-> generator never learned when its orders were filled, so it kept cancelling and amending orders that
-> were already gone: 46% limit, 45% cancel, 6% market, 3% amend, with many cancels rejected as
-> unknown. The v1.1 generator tracks fills, so every cancel and amend hits a live order. The mix is
-> now 60% limit, 31% cancel, 6% market, 3% amend, with about 2,200 resting orders on the typical
-> book. Real cancels cost more than rejected ones, so throughput on the new flow is lower for *both*
-> books (about 20% on a Windows/Clang test machine). The speedup over the baseline is unchanged.
-> Re-run `scripts/reproduce.sh` on the reference VM to refresh these tables.
+**Method.** `tf_bench` replays an in-memory stream of 2M messages through each book. The stream comes
+from the flow generator: 60% limit, 31% cancel, 6% market, 3% amend (deep book: 57 / 34 / 6 / 3).
+Every cancel and amend targets an order that is resting. Throughput is the best of 5 untimed replays
+(3 on the deep book). Latency brackets every message with `lfence; rdtsc; lfence`. The TSC is
+invariant on this CPU (checked with CPUID) and is calibrated against `steady_clock`, which gives
+0.36 ns resolution. The median cost of an empty bracket (11–13 ns) is subtracted. Without an
+invariant TSC, `tf_bench` falls back to `steady_clock` and prints its resolution. On Windows that is
+100 ns, too coarse for per-message latency.
 
-**Typical book** (about 2,000 resting orders around the touch):
+**Typical book** (about 2,250 resting orders around the touch):
 
 | | throughput | p50 | p90 | p99 | p99.9 |
 |---|---:|---:|---:|---:|---:|
-| **tickforge::OrderBook** | **40.2 M/s** | **36 ns** | **56 ns** | **102 ns** | **198 ns** |
-| std::map baseline | 16.3 M/s | 68 ns | 113 ns | 210 ns | 365 ns |
+| **tickforge::OrderBook** | **27.0 M/s** | **42 ns** | **62 ns** | **111 ns** | **171 ns** |
+| std::map baseline | 7.2 M/s | 139 ns | 207 ns | 354 ns | 597 ns |
 
-Fast-book p50 / p99 by type: limit 35 / 107 ns, cancel 36 / 78 ns, market 44 / 132 ns, amend 49 / 131 ns.
+Fast-book p50 / p99 by type: limit 39 / 109 ns, cancel 44 / 81 ns, market 50 / 135 ns, amend 70 / 145 ns.
 
-**Deep, wide book** (about 200,000 resting orders spread over hundreds of levels; `--live 200000 --decay_pct 2`):
+**Deep, wide book** (about 123,000 resting orders spread over hundreds of levels; `--live 200000 --decay_pct 2`):
 
-| | throughput | p50 | p99 | p99.9 |
-|---|---:|---:|---:|---:|
-| **tickforge::OrderBook** | **15.8 M/s** | **83 ns** | **332 ns** | **513 ns** |
-| std::map baseline | 7.1 M/s | 142 ns | 646 ns | 1,068 ns |
+| | throughput | p50 | p90 | p99 | p99.9 |
+|---|---:|---:|---:|---:|---:|
+| **tickforge::OrderBook** | **9.4 M/s** | **107 ns** | **191 ns** | **442 ns** | **600 ns** |
+| std::map baseline | 2.6 M/s | 345 ns | 598 ns | 1,142 ns | 3,471 ns |
 
-Both slow down on the deep book because the working set no longer fits in L1/L2 cache, and the gap
-holds at about 2×.
+**Run-to-run spread.** The tables show the run saved in `results/bench.json` and
+`results/bench_deep.json`. Across three back-to-back runs, fast-book throughput was 27.0–27.6 M/s
+(typical) and 9.4–9.5 M/s (deep). p50 moved by at most 1 ns and p99 by at most 5 ns. The speedup was
+3.7–3.8× on the typical book and 3.5–3.6× on the deep one. The baseline's p99.9 is the noisiest
+number: 597–785 ns typical, 2.2–3.5 µs deep. One more run, started straight after a rebuild and the
+test suite, was slower: 24.3 M/s, p99 183 ns, speedup 3.6×. Expect throughput to vary by 10–15%
+between sessions on a laptop.
+
+Both books slow down on the deep book because the working set no longer fits in cache, and the
+throughput gap stays about 3.5×.
 
 ![latency tail](results/latency_tail.png)
 
-The flat region near 2×10⁻⁴ that both books share is the operating system (interrupts, scheduler
-ticks on a shared VM), not the engine. Measuring below it needs core isolation, which is listed
-under next steps.
+The flat region near 10⁻⁴ (1–15 µs) that both books share is the operating system (interrupts,
+scheduler ticks, Windows background work), not the engine. Measuring below it needs core
+isolation, which is listed under next steps.
 
 ## Testing
 
@@ -214,8 +227,9 @@ under next steps.
   prevention fires constantly, and `StpCancel` events must match too.
   The realistic one uses the flow generator. A further test checks that the generator never sends a
   cancel or amend for an order that is not resting, and that its live set equals the book. Set `TF_FUZZ_SEEDS` for longer runs; CI uses 200.
-  *Mutation check:* flipping one comparison in best-ask maintenance makes the fuzz test fail at
-  message 20, so it catches real bugs.
+  *Mutation check:* flipping one comparison in best-ask maintenance makes both differential tests
+  fail, the adversarial one at message 21 and the realistic one at message 4, so they catch real
+  bugs.
 * **Sanitizers / warnings:** ASan + UBSan build, `-Wall -Wextra -Wconversion -Wsign-conversion
   -Wold-style-cast … -Werror`, clean on GCC 13 and Clang. CI also builds and tests with MSVC on Windows.
 * **Validation tests** (`test_validation.cpp`): malformed enum bytes, the quantity cap, market-order
@@ -278,7 +292,7 @@ and a cancel/replace only when the price changes, so unchanged quotes keep their
 
 κ and β were tuned on seeds 101–103 only, with the v1.0 generator, and were not re-tuned after the
 v1.1 fix. The table reports seeds 1–10, which were never used for tuning: 30 runs and 60.6M engine
-messages (161 s on a Windows/Clang test machine).
+messages (123 s on the benchmark laptop).
 
 | | PnL (ticks×lots) | Sharpe / √1k steps | filled lots | mean \|inv\| | markout 100 | markout 1k | markout 10k |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -314,15 +328,16 @@ Being clear about scope matters more than overclaiming:
 * **Synthetic data.** The flow generator is a stylised model chosen to be reproducible. Running the
   research on real data (for example LOBSTER/ITCH files) is the obvious extension. `tf_replay`
   already consumes a binary message format, so this only needs a parser.
-* **Latency numbers include a ~25 ns clock-read correction** and come from a shared cloud VM without
-  core isolation.
+* **Benchmarks come from one laptop without core isolation.** The latency numbers subtract a
+  measured 11–13 ns timer overhead. Absolute numbers will differ on other machines; the speedup over
+  the baseline is the more portable figure.
 
 ## Next steps
 
-* Refresh the benchmark tables with the v1.1 generator on the reference VM.
 * Re-tune the market maker's κ and β on the v1.1 flow (tuning seeds 101–103 only).
 * An ITCH 5.0 parser so the same engine and research run on real NASDAQ sample data.
-* `rdtsc`-based timing with core pinning and isolation for sub-10 ns measurement resolution.
+* Core pinning and isolation, to measure below the operating system's noise floor (timing
+  already uses `rdtsc`).
 * A lock-free SPSC ring buffer between a gateway thread and the matching thread.
 * Queue-position-aware fill modelling and a fee/rebate model for the market maker.
 

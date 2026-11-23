@@ -1,4 +1,4 @@
-﻿30 runs, 200,000 steps each (60.6M engine messages) in 161.1s
+30 runs, 200,000 steps each (60.6M engine messages) in 122.7s
 
 strategy                     pnl    sharpe_per_sqrt1k                 lots             requotes   mean_abs_inventory          markout_100         markout_1000        markout_10000
 symmetric    -14632.00 ± 4536.82      -0.63 ± 0.18      55758.80 ± 732.93     4369.40 ± 65.28        24.79 ± 0.98          0.07 ± 0.01         -0.08 ± 0.01         -0.25 ± 0.05   

@@ -5,23 +5,36 @@
 //
 // Options --live N and --decay_pct P set the generator's target book size and
 // how far orders spread from the fair value (smaller P = wider book).
+// --expected_orders N sets the fast book's id-index sizing hint.
 //
 // Method
 //   * The stream is generated up front; replay touches only memory.
 //   * Throughput: untimed replay of the whole stream, best of --runs.
-//   * Latency: every message is bracketed by steady_clock reads; the median
-//     cost of an empty bracket is measured and subtracted. Percentiles are
-//     reported per message type and overall.
+//   * Latency: every message is bracketed by timer reads; the median cost of
+//     an empty bracket is measured and subtracted. Percentiles are reported
+//     per message type and overall. On x86-64 with an invariant TSC the timer
+//     is lfence-fenced rdtsc, calibrated against steady_clock, which resolves
+//     well under a nanosecond. Elsewhere it is steady_clock, whose resolution
+//     is reported (100 ns on Windows), so coarse percentiles are visible.
 //   * Each run starts from a fresh book; one warm-up replay precedes timing.
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
 #include <cstdio>
 #include <exception>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
+#if defined(__x86_64__) || defined(_M_X64)
+#define TF_HAVE_TSC 1
 #if defined(_MSC_VER) && !defined(__clang__)
+#include <intrin.h>
+#else
+#include <cpuid.h>
+#include <x86intrin.h>
+#endif
+#elif defined(_MSC_VER) && !defined(__clang__)
 #include <intrin.h>
 #endif
 
@@ -56,15 +69,87 @@ inline void do_not_optimize(const T& v) {
 }
 #endif
 
-double clock_overhead_ns() {
-    std::vector<std::int64_t> d(100000);
+// Per-message timer: raw ticks plus a calibrated tick length.
+struct Timer {
+    bool tsc = false;
+    double ns_per_tick = 1.0;
+    double resolution_ns = 1.0;  // smallest non-zero difference two reads can show
+    double overhead_ns = 0.0;    // median cost of an empty bracket, subtracted
+
+    std::uint64_t now() const noexcept {
+#ifdef TF_HAVE_TSC
+        if (tsc) {
+            _mm_lfence();
+            const std::uint64_t t = __rdtsc();
+            _mm_lfence();
+            return t;
+        }
+#endif
+        return static_cast<std::uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now().time_since_epoch()).count());
+    }
+    double ns(std::uint64_t a, std::uint64_t b) const noexcept {
+        return static_cast<double>(b - a) * ns_per_tick;
+    }
+    const char* name() const noexcept { return tsc ? "rdtsc" : "steady_clock"; }
+};
+
+#ifdef TF_HAVE_TSC
+bool invariant_tsc() {
+    unsigned d = 0;
+#if defined(_MSC_VER) && !defined(__clang__)
+    int r[4];
+    __cpuid(r, static_cast<int>(0x80000000u));
+    if (static_cast<unsigned>(r[0]) < 0x80000007u) return false;
+    __cpuid(r, static_cast<int>(0x80000007u));
+    d = static_cast<unsigned>(r[3]);
+#else
+    unsigned a = 0, b = 0, c = 0;
+    if (__get_cpuid_max(0x80000000u, nullptr) < 0x80000007u) return false;
+    __get_cpuid(0x80000007u, &a, &b, &c, &d);
+#endif
+    return (d & (1u << 8)) != 0;  // CPUID.80000007H:EDX[8], invariant TSC
+}
+#endif
+
+Timer make_timer() {
+    Timer t;
+#ifdef TF_HAVE_TSC
+    if (invariant_tsc()) {
+        // Calibrate TSC ticks against steady_clock over ~250 ms.
+        t.tsc = true;
+        const auto c0 = Clock::now();
+        const std::uint64_t k0 = t.now();
+        while (Clock::now() - c0 < std::chrono::milliseconds(250)) {
+        }
+        const auto c1 = Clock::now();
+        const std::uint64_t k1 = t.now();
+        t.ns_per_tick =
+            std::chrono::duration<double, std::nano>(c1 - c0).count() / static_cast<double>(k1 - k0);
+        t.resolution_ns = t.ns_per_tick;
+    }
+#endif
+    if (!t.tsc) {
+        // Smallest non-zero step steady_clock shows.
+        std::int64_t step = INT64_MAX;
+        for (int i = 0; i < 1000; ++i) {
+            const auto a = Clock::now();
+            auto b = Clock::now();
+            while (b == a) b = Clock::now();
+            step = std::min<std::int64_t>(
+                step, std::chrono::duration_cast<std::chrono::nanoseconds>(b - a).count());
+        }
+        t.resolution_ns = static_cast<double>(step);
+    }
+    std::vector<double> d(100000);
     for (auto& x : d) {
-        const auto a = Clock::now();
-        const auto b = Clock::now();
-        x = std::chrono::duration_cast<std::chrono::nanoseconds>(b - a).count();
+        const std::uint64_t a = t.now();
+        const std::uint64_t b = t.now();
+        x = t.ns(a, b);
     }
     std::nth_element(d.begin(), d.begin() + static_cast<std::ptrdiff_t>(d.size() / 2), d.end());
-    return static_cast<double>(d[d.size() / 2]);
+    t.overhead_ns = d[d.size() / 2];
+    return t;
 }
 
 struct Result {
@@ -91,9 +176,10 @@ void percentiles(std::vector<std::int32_t> v, double out[5]) {
 }
 
 template <class Book>
-Result bench(const char* name, const std::vector<Msg>& msgs, int runs, double overhead) {
+Result bench(const char* name, const std::vector<Msg>& msgs, int runs, const Timer& timer,
+             std::size_t expected_orders) {
     const FlowParams p;
-    const typename Book::Config cfg{p.min_price, p.max_price, 1 << 21};
+    const typename Book::Config cfg{p.min_price, p.max_price, 1 << 21, expected_orders};
     Result r;
     r.name = name;
     std::size_t trades = 0;
@@ -115,13 +201,11 @@ Result bench(const char* name, const std::vector<Msg>& msgs, int runs, double ov
     Book b(cfg);
     r.lat.resize(msgs.size());
     for (std::size_t i = 0; i < msgs.size(); ++i) {
-        const auto t0 = Clock::now();
+        const std::uint64_t t0 = timer.now();
         do_not_optimize(apply(b, msgs[i], Counter{&trades}));
-        const auto t1 = Clock::now();
-        const double ns =
-            static_cast<double>(std::chrono::duration_cast<std::chrono::nanoseconds>(t1 - t0).count()) -
-            overhead;
-        r.lat[i] = static_cast<std::int32_t>(std::max(0.0, ns));
+        const std::uint64_t t1 = timer.now();
+        const double ns = timer.ns(t0, t1) - timer.overhead_ns;
+        r.lat[i] = static_cast<std::int32_t>(std::max(0.0, ns + 0.5));
     }
     std::vector<std::int32_t> by_type[4];
     for (std::size_t i = 0; i < msgs.size(); ++i) by_type[static_cast<int>(msgs[i].type)].push_back(r.lat[i]);
@@ -144,12 +228,14 @@ void print(const Result& r) {
 }
 
 void write_json(const std::string& path, const std::vector<Result>& rs, std::size_t n, std::uint64_t seed,
-                double overhead) {
+                const Timer& timer) {
     std::FILE* f = std::fopen(path.c_str(), "w");
     if (!f) throw std::runtime_error("cannot open " + path);
     std::fprintf(
-        f, "{\n  \"messages\": %zu,\n  \"seed\": %llu,\n  \"clock_overhead_ns\": %.1f,\n  \"books\": [\n", n,
-        static_cast<unsigned long long>(seed), overhead);
+        f,
+        "{\n  \"messages\": %zu,\n  \"seed\": %llu,\n  \"timer\": \"%s\",\n  \"timer_resolution_ns\": "
+        "%.3f,\n  \"clock_overhead_ns\": %.1f,\n  \"books\": [\n",
+        n, static_cast<unsigned long long>(seed), timer.name(), timer.resolution_ns, timer.overhead_ns);
     for (std::size_t k = 0; k < rs.size(); ++k) {
         const auto& r = rs[k];
         std::fprintf(f, "    {\"name\": \"%s\", \"mmsgs_per_sec\": %.3f, \"latency_ns\": {", r.name.c_str(),
@@ -185,6 +271,10 @@ int main(int argc, char** argv) try {
     const auto n = static_cast<std::size_t>(args.num("n", 2'000'000, 1));
     const auto seed = static_cast<std::uint64_t>(args.num("seed", 1, 0));
     const int runs = static_cast<int>(args.num("runs", 5, 1, 1000));
+    // Id-index sizing hint for the fast book. Setting it to max_orders (2097152)
+    // reproduces the oversized-hash-table regression described in DESIGN.md.
+    const auto expected = static_cast<std::size_t>(
+        args.num("expected_orders", static_cast<long long>(BookConfig{}.expected_orders), 1, 1 << 21));
 
     std::vector<Msg> msgs;
     if (args.has("in")) {
@@ -199,19 +289,22 @@ int main(int argc, char** argv) try {
         FlowGenerator gen(seed, p);
         msgs = gen.generate(driver, n);
     }
-    const double overhead = clock_overhead_ns();
-    std::printf("tickforge benchmark: %zu messages, seed %llu, clock overhead %.0f ns (subtracted)\n",
-                msgs.size(), static_cast<unsigned long long>(seed), overhead);
+    const Timer timer = make_timer();
+    std::printf(
+        "tickforge benchmark: %zu messages, seed %llu, timer %s (resolution %.2f ns), overhead %.1f ns "
+        "(subtracted)\n",
+        msgs.size(), static_cast<unsigned long long>(seed), timer.name(), timer.resolution_ns,
+        timer.overhead_ns);
 
     std::vector<Result> rs;
-    rs.push_back(bench<OrderBook>("tickforge::OrderBook", msgs, runs, overhead));
-    rs.push_back(bench<ReferenceBook>("std::map baseline", msgs, runs, overhead));
+    rs.push_back(bench<OrderBook>("tickforge::OrderBook", msgs, runs, timer, expected));
+    rs.push_back(bench<ReferenceBook>("std::map baseline", msgs, runs, timer, expected));
     for (const auto& r : rs) print(r);
     std::printf("\nspeedup: throughput %.1fx, p50 %.1fx, p99 %.1fx\n",
                 rs[0].mmsgs_per_sec / rs[1].mmsgs_per_sec, rs[1].all[0] / std::max(1.0, rs[0].all[0]),
                 rs[1].all[2] / std::max(1.0, rs[0].all[2]));
 
-    if (args.has("json")) write_json(args.str("json", ""), rs, msgs.size(), seed, overhead);
+    if (args.has("json")) write_json(args.str("json", ""), rs, msgs.size(), seed, timer);
     if (args.has("samples"))
         write_samples(args.str("samples", ""), rs, msgs, std::max<std::size_t>(1, msgs.size() / 200000));
     return 0;

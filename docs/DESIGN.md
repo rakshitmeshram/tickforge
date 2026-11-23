@@ -60,12 +60,12 @@ are often sequential, which would cluster badly under identity hashing).
 
 * **Deletion uses backward shift, not tombstones.** After removing a key, the entries after it in
   the probe chain move back if that does not put them before their home slot. Lookups never step
-  over tombstones, and performance does not decay under heavy cancel churn. About 45% of messages
-  in the benchmark flow are cancels.
+  over tombstones, and performance does not decay under heavy cancel churn. About 31% of messages
+  in the benchmark flow are cancels, all of them for live orders.
 * **Sizing is to expected live orders, not maximum orders.** This is the main performance lesson of
-  the project. With 4M slots (64 MB), every lookup missed L2 and the TLB, and the "fast" book was
-  slower than `std::map` at the median. With a cache-sized table that grows on demand, p50 went from
-  120 ns to 36 ns.
+  the project. With 4M slots (64 MB), almost every lookup misses the caches and the TLB. On the
+  benchmark laptop (i7-7700HQ) that more than doubles p50, from 42 ns to 102 ns, and cuts throughput
+  from 27 to 12 M msgs/s. `tf_bench --expected_orders 2097152` reproduces it.
 
 ## 6. Trades through a template parameter
 
@@ -114,8 +114,11 @@ stale and duplicate ids, invalid inputs, and capacity exhaustion.
 
 The flow generator uses its own xoshiro256** generator and its own Box–Muller, geometric and
 lognormal transforms, because `std::normal_distribution` and friends are implementation-defined and
-give different streams on libstdc++, libc++ and MSVC. One seed gives one byte-identical message
-stream everywhere.
+give different streams on libstdc++, libc++ and MSVC. On a given platform one seed always gives
+the same message stream. Across platforms the streams should match, but the transforms call
+`std::log`, `std::cos` and `std::sqrt`, and only `sqrt` is required to be correctly rounded, so a
+last-bit difference in a platform's math library could change a price somewhere. This has only been
+checked on one machine; comparing a stream hash between the Linux CI job and Windows would settle it.
 
 The generator is a participant that needs feedback: it must know when its orders fill or fail to
 rest. Otherwise it keeps "cancelling" orders that no longer exist, and its depth control, which

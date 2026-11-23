@@ -8,6 +8,18 @@
 $ErrorActionPreference = 'Stop'
 Set-Location (Join-Path $PSScriptRoot '..')
 
+# Python prints UTF-8 (±, ×); read it as UTF-8 and save it as UTF-8 without a
+# BOM. Windows PowerShell 5.1's Tee-Object would write UTF-16 instead.
+$env:PYTHONIOENCODING = 'utf-8'
+[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+
+function Save-Output {
+    param([string[]]$Lines, [string]$Name, [string]$Path)
+    if ($LASTEXITCODE -ne 0) { throw "$Name failed with exit code $LASTEXITCODE" }
+    $Lines | Write-Host
+    [IO.File]::WriteAllLines((Join-Path (Get-Location) $Path), $Lines)
+}
+
 function Invoke-Step {
     param([string]$Exe, [string[]]$Arguments)
     & $Exe @Arguments
@@ -41,9 +53,7 @@ Invoke-Step python @('research\plot_latency.py', 'results\latency_samples.csv', 
 Write-Host '== order book imbalance study =='
 Invoke-Step $gen @('--n', '2000000', '--seed', '7', '--out', 'data\flow.bin')
 Invoke-Step $replay @('--in', 'data\flow.bin', '--book', 'data\book.csv', '--trades', 'data\trades.csv')
-python research\obi_signal.py data\book.csv results | Tee-Object -FilePath results\obi_stdout.txt
-if ($LASTEXITCODE -ne 0) { throw 'obi_signal.py failed' }
+Save-Output (python research\obi_signal.py data\book.csv results) 'obi_signal.py' 'results\obi_stdout.txt'
 
 Write-Host '== market-making backtest =='
-python research\market_maker.py 200000 10 results | Tee-Object -FilePath results\mm_stdout.txt
-if ($LASTEXITCODE -ne 0) { throw 'market_maker.py failed' }
+Save-Output (python research\market_maker.py 200000 10 results) 'market_maker.py' 'results\mm_stdout.txt'

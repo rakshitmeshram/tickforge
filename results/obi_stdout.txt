@@ -1,4 +1,4 @@
-﻿1,999,998 snapshots, median spread 1 ticks; train/test split at 1,399,998
+1,999,998 snapshots, median spread 1 ticks; train/test split at 1,399,998
 
 signal   h    beta      ic   t_stat  n_indep  r2_oos  hit_rate
   obi1   1  0.0029  0.0478  37.0407   599999  0.0023    0.7017
