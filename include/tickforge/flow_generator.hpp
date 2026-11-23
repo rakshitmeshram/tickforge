@@ -232,7 +232,13 @@ private:
     Msg make_limit() noexcept {
         const Side side = rng_.uniform() < 0.5 ? Side::Buy : Side::Sell;
         const OrderId id = next_id_++;
-        return make_msg(MsgType::Limit, side, Tif::GTC, id, quote_price(side), draw_qty());
+        // Price and quantity both draw random numbers. Draw them in separate
+        // statements: as two arguments of one call, their evaluation order is
+        // unspecified (Clang goes left to right, GCC and MSVC right to left),
+        // and the same seed gave different streams per compiler.
+        const Price px = quote_price(side);
+        const Qty qty = draw_qty();
+        return make_msg(MsgType::Limit, side, Tif::GTC, id, px, qty);
     }
 
     Msg make_cancel() {
@@ -243,7 +249,9 @@ private:
 
     Msg make_amend() noexcept {
         const Live& o = live_[rng_.below(live_.size())];
-        return make_msg(MsgType::Amend, o.side, Tif::GTC, o.id, quote_price(o.side), draw_qty());
+        const Price px = quote_price(o.side);  // separate statements: see make_limit
+        const Qty qty = draw_qty();
+        return make_msg(MsgType::Amend, o.side, Tif::GTC, o.id, px, qty);
     }
 
     Msg make_market(Price bid, Price ask) noexcept {
