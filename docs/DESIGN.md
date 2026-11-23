@@ -114,11 +114,25 @@ stale and duplicate ids, invalid inputs, and capacity exhaustion.
 
 The flow generator uses its own xoshiro256** generator and its own Box–Muller, geometric and
 lognormal transforms, because `std::normal_distribution` and friends are implementation-defined and
-give different streams on libstdc++, libc++ and MSVC. On a given platform one seed always gives
-the same message stream. Across platforms the streams should match, but the transforms call
-`std::log`, `std::cos` and `std::sqrt`, and only `sqrt` is required to be correctly rounded, so a
-last-bit difference in a platform's math library could change a price somewhere. This has only been
-checked on one machine; comparing a stream hash between the Linux CI job and Windows would settle it.
+give different streams on libstdc++, libc++ and MSVC.
+
+That alone was not enough. `test_determinism` hashes seeded streams and compares them with values
+pinned on Windows/Clang, and CI runs it on GCC, Clang and MSVC. Its first run failed on GCC and
+MSVC. Both produced the same stream as each other, but a different one from Clang, on Linux and
+Windows alike. The cause was `make_msg(..., quote_price(side), draw_qty())` in `make_limit()` and
+`make_amend()`. Both arguments draw random numbers, and C++ does not specify the order in which
+function arguments are evaluated: Clang goes left to right, GCC and MSVC right to left. The same seed
+therefore produced different order flow, and different research numbers, depending on the compiler
+that built the engine. The draws are now separate statements, in Clang's order, so the committed
+results did not change, and all compilers now agree.
+
+The remaining platform difference is floating point. `std::log`, `std::sin` and `std::cos` are not
+required to be correctly rounded, and Clang on Linux (glibc) produced a final fair value that
+differed from Windows in the last bit or two on two of four test seeds. That only changes a message
+if it moves the fair value across an integer price, which has not happened in any tested stream,
+2M messages included. The test therefore requires the message stream to match exactly and the fair
+value to match within 10⁻⁹ relative. A future platform whose math library differs more would fail
+the exact stream check rather than silently changing results.
 
 The generator is a participant that needs feedback: it must know when its orders fill or fail to
 rest. Otherwise it keeps "cancelling" orders that no longer exist, and its depth control, which

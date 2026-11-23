@@ -65,6 +65,12 @@ the signal's horizon is shorter than the inventory holding period, and the slowe
 dominates. Repricing on the signal also forfeits queue position, so fills drop 73%. Signal IC does
 not equal strategy PnL, and execution details decide the outcome.
 
+**What was the hardest bug?** One that every unit test missed: the same seed produced different
+order flow on GCC and MSVC than on Clang. Price and quantity were both drawn from the RNG as two
+arguments of one call, and C++ leaves argument evaluation order unspecified. A CI test that hashes
+seeded streams on every compiler and compares them with pinned values caught it on its first run.
+Clang's order was kept, so no published result changed.
+
 **How did you avoid overfitting the strategy?** κ and β were tuned on seeds 101–103 and results are
 reported on seeds 1–10, which were never used for tuning. The research split is chronological 70/30,
 with IC computed on non-overlapping samples.

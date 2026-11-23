@@ -17,9 +17,8 @@ market-making strategies.**
 All benchmark numbers come from `scripts/reproduce.ps1` on a Dell Inspiron 5577 laptop: Intel Core i7-7700HQ (Kaby Lake, 4 cores / 8 threads, 2.8 GHz base, 3.8 GHz turbo, 6 MB L3), 8 GB RAM, Windows 10 22H2, on AC power with the Balanced power plan. The compiler is Clang 22.1
 (`zig c++` 0.17.1), `-O3`. See [Benchmarks](#benchmarks) for the method and run-to-run spread. The
 research numbers are deterministic: rerunning with the same seeds reproduced `results/*_metrics.json`
-exactly. The generator avoids `std::` distributions so that streams should match across platforms,
-but that has only been checked on this machine. CI runs a smaller research smoke test on Linux
-without comparing numbers.
+exactly. The order flow behind them is identical on every compiler CI covers (GCC and Clang on
+Linux, Clang and MSVC on Windows), and `test_determinism` checks that on every push.
 
 ---
 
@@ -37,7 +36,7 @@ include/tickforge/
 src/c_api.cpp          C ABI implementation -> libtickforge_c.so
 tools/                 tf_gen (write flow), tf_replay (export book/trade CSVs), tf_bench
 tests/                 scenario tests (run on both books), structure property tests, differential fuzz,
-                       input validation
+                       input validation, cross-platform determinism
 scripts/               reproduce.sh / reproduce.ps1, zig/ compiler wrappers for Windows without Visual Studio
 .github/workflows/     CI: GCC, Clang, MSVC, sanitizers, Python, research smoke test, clang-format
 python/tickforge/      ctypes bindings (numpy only), pytest suite
@@ -236,6 +235,12 @@ isolation, which is listed under next steps.
   id reuse and the capacity invariant on both books. Corrupt message files are covered too:
   truncated, trailing bytes, huge record count, bad magic and bad records.
   The fuzzer also injects malformed bytes, over-cap quantities and reused market ids.
+* **Determinism** (`test_determinism.cpp`): hashes every field of five seeded generator streams,
+  including the full 2M-message stream behind the imbalance study. They are compared with hashes
+  pinned on the benchmark machine, so every CI job checks that the same seed gives the same order
+  flow on its compiler and OS. Its first CI run found a real bug: price and quantity were drawn as
+  two arguments of one call, whose evaluation order C++ leaves unspecified, so GCC and MSVC builds
+  generated different order flow from Clang. See [DESIGN.md §10](docs/DESIGN.md).
 * **Python:** pytest covers the FFI boundary, including generator reproducibility, id-range
   isolation, rejection of invalid sides and use of a closed book.
 * **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on every push: GCC and Clang,
