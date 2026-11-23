@@ -110,11 +110,12 @@ bool run_stream(const std::vector<Msg>& msgs, Price lo, Price hi, std::size_t ca
             std::printf("    divergence at msg %zu: type=%d side=%d tif=%d id=%llu px=%lld qty=%lld\n", i,
                         static_cast<int>(m.type), static_cast<int>(m.side), static_cast<int>(m.tif), U(m.id),
                         L(m.price), L(m.qty));
-            std::printf("    fast: st=%s f=%lld r=%lld stp=%lld trades=%zu cx=%zu  "
-                        "ref: st=%s f=%lld r=%lld stp=%lld trades=%zu cx=%zu\n",
-                        to_string(a.status), L(a.filled), L(a.resting), L(a.self_trade_cancelled), tf.size(),
-                        cf.size(), to_string(b.status), L(b.filled), L(b.resting), L(b.self_trade_cancelled),
-                        tr.size(), cr.size());
+            std::printf(
+                "    fast: st=%s f=%lld r=%lld stp=%lld trades=%zu cx=%zu  "
+                "ref: st=%s f=%lld r=%lld stp=%lld trades=%zu cx=%zu\n",
+                to_string(a.status), L(a.filled), L(a.resting), L(a.self_trade_cancelled), tf.size(),
+                cf.size(), to_string(b.status), L(b.filled), L(b.resting), L(b.self_trade_cancelled),
+                tr.size(), cr.size());
             return false;
         }
     }

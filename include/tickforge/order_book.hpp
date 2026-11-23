@@ -221,7 +221,9 @@ private:
         return c;
     }
 
-    bool id_in_use(OrderId id) const noexcept { return id == IdMap::kEmpty || ids_.find(id) != IdMap::kMissing; }
+    bool id_in_use(OrderId id) const noexcept {
+        return id == IdMap::kEmpty || ids_.find(id) != IdMap::kMissing;
+    }
 
     static constexpr int side_index(Side s) noexcept { return static_cast<int>(s); }
     std::size_t index_of(Price p) const noexcept { return static_cast<std::size_t>(p - cfg_.min_price); }
@@ -256,7 +258,8 @@ private:
     }
 
     template <class Sink>
-    MatchResult match(OrderId taker, Side side, std::int64_t limit_px, Qty qty, Sink& on_trade, OrderOwner owner) {
+    MatchResult match(OrderId taker, Side side, std::int64_t limit_px, Qty qty, Sink& on_trade,
+                      OrderOwner owner) {
         const int o = side_index(opposite(side));
         auto& levels = levels_[o];
         Qty filled = 0;

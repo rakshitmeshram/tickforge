@@ -91,7 +91,8 @@ tf_report tf_book_limit_ex(tf_book* b, uint64_t id, uint8_t side, int64_t price,
 tf_report tf_book_market_ex(tf_book* b, uint64_t id, uint8_t side, int64_t qty, uint32_t owner, uint8_t stp) {
     if (!b || !valid_side(side) || !valid_stp(stp)) return kInvalid;
     try {
-        return to_c(b->book.market(id, side_of(side), qty, Collector{b}, OrderOwner{owner, static_cast<Stp>(stp)}));
+        return to_c(
+            b->book.market(id, side_of(side), qty, Collector{b}, OrderOwner{owner, static_cast<Stp>(stp)}));
     } catch (const std::bad_alloc&) {
         return kNoMemory;
     }
@@ -123,8 +124,14 @@ tf_report tf_book_amend(tf_book* b, uint64_t id, int64_t price, int64_t qty) {
 tf_report tf_book_apply(tf_book* b, const tf_msg* m) {
     if (!b || !m) return kInvalid;
     // Raw bytes are copied as-is; apply() rejects out-of-range enum values.
-    const Msg msg{static_cast<MsgType>(m->type), static_cast<Side>(m->side), static_cast<Tif>(m->tif),
-                  static_cast<Stp>(m->stp), m->owner, m->id, m->price, m->qty};
+    const Msg msg{static_cast<MsgType>(m->type),
+                  static_cast<Side>(m->side),
+                  static_cast<Tif>(m->tif),
+                  static_cast<Stp>(m->stp),
+                  m->owner,
+                  m->id,
+                  m->price,
+                  m->qty};
     try {
         return to_c(apply(b->book, msg, Collector{b}));
     } catch (const std::bad_alloc&) {

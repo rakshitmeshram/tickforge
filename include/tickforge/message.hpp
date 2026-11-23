@@ -95,15 +95,17 @@ inline std::vector<Msg> read_messages(const std::string& path) {
     std::FILE* f = std::fopen(path.c_str(), "rb");
     if (!f) throw std::runtime_error("cannot open " + path);
     std::uint64_t header[2] = {0, 0};
-    if (file_size < sizeof header || std::fread(header, sizeof header, 1, f) != 1 || header[0] != kMsgFileMagic) {
+    if (file_size < sizeof header || std::fread(header, sizeof header, 1, f) != 1 ||
+        header[0] != kMsgFileMagic) {
         std::fclose(f);
         throw std::runtime_error(path + ": not a tickforge message file");
     }
     const std::uintmax_t records = (file_size - sizeof header) / sizeof(Msg);
     if (header[1] != records || (file_size - sizeof header) % sizeof(Msg) != 0) {
         std::fclose(f);
-        throw std::runtime_error(path + ": header says " + std::to_string(header[1]) + " messages but the file holds " +
-                                 std::to_string(file_size - sizeof header) + " bytes of records (truncated or corrupt)");
+        throw std::runtime_error(path + ": header says " + std::to_string(header[1]) +
+                                 " messages but the file holds " + std::to_string(file_size - sizeof header) +
+                                 " bytes of records (truncated or corrupt)");
     }
     std::vector<Msg> msgs(static_cast<std::size_t>(records));
     const bool ok = msgs.empty() || std::fread(msgs.data(), sizeof(Msg), msgs.size(), f) == msgs.size();

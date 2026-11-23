@@ -243,7 +243,7 @@ void stp_cancel_newest() {
     CHECK_EQ(r.self_trade_cancelled, 7);
     REQUIRE(tr.size() == 1);
     CHECK_EQ(tr[0].maker_id, 1u);
-    CHECK(cx.empty());           // resting order untouched
+    CHECK(cx.empty());              // resting order untouched
     CHECK_EQ(b.order_count(), 2u);  // ids 2 and 3
     CHECK_EQ(b.best_ask(), 100);
     CHECK_EQ(b.best_bid(), kNoPrice);
@@ -309,7 +309,7 @@ void stp_market_order() {
     CHECK_EQ(r.filled, 3);
     CHECK_EQ(r.self_trade_cancelled, 17);
     r = b.market(11, Side::Buy, 20, StpRecorder{&tr, &cx}, own(7, Stp::CancelOldest));
-    CHECK_EQ(r.filled, 5);              // id 2 cancelled, id 3 consumed
+    CHECK_EQ(r.filled, 5);                // id 2 cancelled, id 3 consumed
     CHECK_EQ(r.self_trade_cancelled, 0);  // a market remainder is not an STP cancel
     CHECK_EQ(cx.size(), 1u);
     CHECK_EQ(b.order_count(), 0u);

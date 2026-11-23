@@ -142,12 +142,13 @@ private:
     }
 
     Qty available(Side side, Price limit, const OrderOwner& owner) const {
-        return side == Side::Buy ? available_in(asks_, side, limit, owner) : available_in(bids_, side, limit, owner);
+        return side == Side::Buy ? available_in(asks_, side, limit, owner)
+                                 : available_in(bids_, side, limit, owner);
     }
 
     template <class Book, class Sink>
-    Qty sweep(Book& book, OrderId taker, Side side, Price limit, Qty qty, Sink& on_trade, const OrderOwner& owner,
-              bool& stopped) {
+    Qty sweep(Book& book, OrderId taker, Side side, Price limit, Qty qty, Sink& on_trade,
+              const OrderOwner& owner, bool& stopped) {
         Qty filled = 0;
         while (qty > 0 && !book.empty() && !stopped) {
             auto lvl = book.begin();
