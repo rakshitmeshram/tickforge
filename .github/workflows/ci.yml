@@ -1,0 +1,76 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpp:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++, clang++]
+        config:
+          - { name: release, flags: "-DCMAKE_BUILD_TYPE=Release" }
+          - { name: sanitizers, flags: "-DCMAKE_BUILD_TYPE=Debug -DTF_SANITIZE=ON" }
+    name: ${{ matrix.compiler }} / ${{ matrix.config.name }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} ${{ matrix.config.flags }}
+      - name: Build
+        run: cmake --build build -j
+      - name: Test
+        run: cd build && ctest --output-on-failure
+        env:
+          TF_FUZZ_SEEDS: ${{ matrix.config.name == 'sanitizers' && '15' || '200' }}
+
+  windows:
+    name: msvc / release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Configure
+        run: cmake -S . -B build
+      - name: Build
+        run: cmake --build build --config Release -j
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
+        env:
+          TF_FUZZ_SEEDS: "40"
+      - name: Python tests
+        run: |
+          pip install numpy pytest
+          cd python
+          python -m pytest -q
+
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy pandas matplotlib pytest
+      - run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j --target tickforge_c
+      - run: cd python && python -m pytest -q
+      - name: Research smoke test
+        run: |
+          cmake --build build -j
+          mkdir -p data results
+          ./build/tf_gen --n 200000 --seed 7 --out data/flow.bin
+          ./build/tf_replay --in data/flow.bin --book data/book.csv --trades data/trades.csv
+          python research/obi_signal.py data/book.csv results
+          python research/market_maker.py 5000 2 results
+
+  format:
+    runs-on: ubuntu-24.04
+    # clang-format output differs slightly across versions; report, don't block.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - run: clang-format --dry-run --Werror include/tickforge/*.hpp src/*.cpp tools/*.cpp tests/*.cpp

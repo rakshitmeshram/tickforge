@@ -1,0 +1,13 @@
+build*/
+data/
+python/tickforge/*.so
+python/tickforge/*.dylib
+python/tickforge/*.dll
+python/tickforge/*.lib
+python/tickforge/*.exp
+python/tickforge/*.pdb
+__pycache__/
+.pytest_cache/
+results/latency_samples.csv
+.venv/
+results-local/
