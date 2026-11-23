@@ -4,18 +4,18 @@
 research layer that uses the engine to study order book imbalance and backtest
 market-making strategies.**
 
-![C++20](https://img.shields.io/badge/C%2B%2B-20-blue) ![tests](https://img.shields.io/badge/tests-differential%20fuzz%20%2B%20ASan%2FUBSan-green) ![deps](https://img.shields.io/badge/runtime%20deps-none-lightgrey)
+[![ci](https://github.com/rakshitmeshram/tickforge/actions/workflows/ci.yml/badge.svg)](https://github.com/rakshitmeshram/tickforge/actions/workflows/ci.yml) ![C++20](https://img.shields.io/badge/C%2B%2B-20-blue) ![tests](https://img.shields.io/badge/tests-differential%20fuzz%20%2B%20ASan%2FUBSan-green) ![deps](https://img.shields.io/badge/runtime%20deps-none-lightgrey)
 
 | | |
 |---|---|
 | **Throughput** | **40.2 M msgs/s** single core, 2.5× a `std::map` book on identical flow |
 | **Latency** | **p50 36 ns · p99 102 ns · p99.9 198 ns** per message (add / cancel / amend / market) |
-| **Correctness** | Unit tests plus differential fuzzing: 1.4 M random messages (4.6 M in CI), including self-trade prevention across several owners, must match an independent reference book trade for trade. Clean under ASan, UBSan and `-Werror` on GCC and Clang |
+| **Correctness** | Unit tests plus differential fuzzing: 1.4 M random messages (4.6 M in CI), including self-trade prevention across several owners, must match an independent reference book trade for trade. Clean under ASan, UBSan and `-Werror` on GCC and Clang, and built and tested with MSVC, in CI on every push |
 | **Features** | GTC / IOC / FOK limits, market orders, O(1) cancel, amend, and self-trade prevention (cancel newest / oldest / both) |
 | **Research** | Level-1 imbalance has an out-of-sample IC of 0.23 at 50 messages. An inventory-skewed market maker earns money where a symmetric one loses, and using the imbalance signal for quoting *reduces* PnL. The analysis shows why |
 
 The benchmark numbers come from `scripts/reproduce.sh` on a 2-vCPU Intel Xeon @ 2.1 GHz cloud VM
-(GCC 13, `-O3`); on a desktop CPU they will be better. The research numbers are deterministic (same
+(GCC 13, `-O3`) with the v1.0 flow generator; on a desktop CPU they will be better. The research numbers are deterministic (same
 seed, same result on every platform) and were regenerated for v1.1, whose flow generator only
 cancels and amends orders that are really resting (see [Benchmarks](#benchmarks)).
 
@@ -34,7 +34,10 @@ include/tickforge/
   c_api.h              exception-free C ABI
 src/c_api.cpp          C ABI implementation -> libtickforge_c.so
 tools/                 tf_gen (write flow), tf_replay (export book/trade CSVs), tf_bench
-tests/                 scenario tests (run on both books), structure property tests, differential fuzz
+tests/                 scenario tests (run on both books), structure property tests, differential fuzz,
+                       input validation
+scripts/               reproduce.sh / reproduce.ps1, zig/ compiler wrappers for Windows without Visual Studio
+.github/workflows/     CI: GCC, Clang, MSVC, sanitizers, Python, research smoke test, clang-format
 python/tickforge/      ctypes bindings (numpy only), pytest suite
 research/              obi_signal.py, market_maker.py, plot_latency.py
 docs/DESIGN.md         design decisions and trade-offs
@@ -43,6 +46,7 @@ docs/DESIGN.md         design decisions and trade-offs
 ## Quick start
 
 ```bash
+git clone https://github.com/rakshitmeshram/tickforge.git && cd tickforge
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
 (cd build && ctest --output-on-failure)        # C++ tests
 (cd python && python3 -m pytest -q)            # Python binding tests
@@ -65,6 +69,24 @@ cd python; python -m pytest -q
 The DLL is written to `python/tickforge/` (`tickforge_c.dll` with MSVC, `libtickforge_c.dll` with
 MinGW, which links its C++ runtime statically). With MSVC, warnings are not errors by default; pass
 `-DTF_WERROR=ON` to make them so. MSVC sanitizer builds get AddressSanitizer only (no UBSan).
+
+**Windows without Visual Studio.** Everything can come from pip inside a project virtual
+environment, with `zig c++` (Clang) as the compiler. The wrappers in `scripts/zig/` call the zig from
+`.venv`:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install ziglang cmake ninja numpy pandas matplotlib pytest
+$env:PATH = "$PWD\.venv\Scripts;$env:PATH"
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release `
+  -DCMAKE_CXX_COMPILER="$PWD/scripts/zig/zig-cxx.cmd" `
+  -DCMAKE_AR="$PWD/scripts/zig/zig-ar.cmd" -DCMAKE_RANLIB="$PWD/scripts/zig/zig-ranlib.cmd"
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
+
+Once `build\` is configured this way, `reproduce.ps1` reuses it. Windows' `steady_clock` ticks every
+100 ns, so latency percentiles there are coarse; throughput numbers are fine.
 
 The engine needs only a C++20 compiler and CMake. The Python layer needs
 `numpy`, and the research scripts also need `pandas` and `matplotlib`.
@@ -202,6 +224,11 @@ under next steps.
   The fuzzer also injects malformed bytes, over-cap quantities and reused market ids.
 * **Python:** pytest covers the FFI boundary, including generator reproducibility, id-range
   isolation, rejection of invalid sides and use of a closed book.
+* **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on every push: GCC and Clang,
+  each in Release and in an ASan + UBSan build, MSVC Release with the Python tests, a Python job that
+  also runs a research smoke test, and a `clang-format` 18 check. Before pushing, format with
+  `clang-format -i include/tickforge/*.hpp src/*.cpp tools/*.cpp tests/*.cpp` (version 18, as on
+  Ubuntu 24.04; `pip install clang-format==18.1.8` gives the same binary).
 
 ## Research 1 — does order book imbalance predict the mid?
 
@@ -292,6 +319,8 @@ Being clear about scope matters more than overclaiming:
 
 ## Next steps
 
+* Refresh the benchmark tables with the v1.1 generator on the reference VM.
+* Re-tune the market maker's κ and β on the v1.1 flow (tuning seeds 101–103 only).
 * An ITCH 5.0 parser so the same engine and research run on real NASDAQ sample data.
 * `rdtsc`-based timing with core pinning and isolation for sub-10 ns measurement resolution.
 * A lock-free SPSC ring buffer between a gateway thread and the matching thread.
