@@ -93,7 +93,7 @@ endforeach()
 # ---------------------------------------------------------------- tests
 include(CTest)
 if(BUILD_TESTING)
-  foreach(t test_order_book test_structures test_differential test_validation)
+  foreach(t test_order_book test_structures test_differential test_validation test_determinism)
     add_executable(${t} tests/${t}.cpp)
     target_link_libraries(${t} PRIVATE tickforge tf_warnings)
     add_test(NAME ${t} COMMAND ${t})
